@@ -64,7 +64,7 @@ body {
 
 .head {
     height: 100vh;
-    background: url('Festival.webp') no-repeat center center/cover;
+    background: url('/Hugyaw/images/Festival.webp') no-repeat center center/cover;
     display: flex;
     justify-content: center;
     align-items: center;
