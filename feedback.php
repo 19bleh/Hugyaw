@@ -1,21 +1,13 @@
 <?php
-// Database connection
-$servername = "localhost";
-$username = "root"; // Default XAMPP username
-$password = ""; // Default XAMPP password
-$dbname = "hugyaw"; // Name of the database, replace it with your actual database name
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include 'db_connection.php';
 
 // Fetch municipalities for the dropdown
 $municipalitiesQuery = "SELECT id, name FROM municipalities";
 $municipalitiesResult = $conn->query($municipalitiesQuery);
+
+if (!$municipalitiesResult) {
+    die("Query failed: " . $conn->error);
+}
 
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_feedback'])) {
@@ -33,19 +25,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_feedback'])) {
 $feedback = [];
 if (isset($_GET['municipality_id'])) {
     $municipality_id = $_GET['municipality_id'];
-    $feedbackQuery = "SELECT * FROM feedback WHERE municipality_id = ?";
+    $feedbackQuery = "SELECT * FROM feedback WHERE municipality_id = ? ORDER BY created_at DESC";
     $stmt = $conn->prepare($feedbackQuery);
     $stmt->bind_param("i", $municipality_id);
     $stmt->execute();
     $result = $stmt->get_result();
-
-    while ($row = $result->fetch_assoc()) {
-        $feedback[] = $row;
-    }
+    $feedback = $result->fetch_all(MYSQLI_ASSOC);
     $stmt->close();
 }
 
-$conn->close();
+// Fetch municipalities again for the view feedback dropdown
+$municipalitiesResultView = $conn->query($municipalitiesQuery);
+
+if (!$municipalitiesResultView) {
+    die("Query failed: " . $conn->error);
+}
 ?>
 
 <!DOCTYPE html>
@@ -61,7 +55,7 @@ $conn->close();
         <nav>
             <ul class="nav-links">
                 <li><a href="Festival.html">Home</a></li>
-                <li><a href="feedback.html">Feedbacks</a></li>
+                <li><a href="feedback.php">Feedbacks</a></li>
             </ul>
         </nav>
         <h1 class="logo">Hugyaw</h1>
@@ -71,7 +65,7 @@ $conn->close();
             <h1>Festival Feedback</h1>
 
             <!-- Feedback Form -->
-            <form action="feedback.html" method="POST" class="feedback-form">
+            <form action="feedback.php" method="POST" class="feedback-form">
                 <label for="municipality_id">Select Municipality:</label>
                 <select name="municipality_id" id="municipality_id" required>
                     <option value="">--Select Municipality--</option>
@@ -82,11 +76,21 @@ $conn->close();
 
                 <label for="comment">Your Feedback:</label><br>
                 <textarea name="comment" id="comment" rows="4" cols="50" required></textarea><br><br>
-
-                <button type="submit" name="submit_feedback">Submit Feedback</button>
+                <input type="submit" name="submit_feedback" value="Submit Feedback">
             </form>
 
-            <hr>
+            <!-- View Feedback Section -->
+            <h2>View Feedback</h2>
+            <form action="feedback.php" method="GET" class="view-feedback-form">
+                <label for="municipality_id_view">Select Municipality:</label>
+                <select name="municipality_id" id="municipality_id_view" required>
+                    <option value="">--Select Municipality--</option>
+                    <?php while ($row = $municipalitiesResultView->fetch_assoc()) { ?>
+                        <option value="<?php echo $row['id']; ?>"><?php echo $row['name']; ?></option>
+                    <?php } ?>
+                </select><br><br>
+                <input type="submit" value="View Feedback">
+            </form>
 
             <!-- Feedback Display Section -->
             <?php if (isset($feedback) && count($feedback) > 0): ?>
