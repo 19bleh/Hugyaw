@@ -6,7 +6,7 @@ This project is a web application for collecting and displaying feedback for var
 
 - Submit feedback for a selected municipality.
 - View feedback for a selected municipality.
-- Responsive design with a consistent theme.
+- Delete feedback entries.
 
 ## Technologies Used
 
