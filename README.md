@@ -54,7 +54,7 @@ This project is a web application for collecting and displaying feedback for var
 
 3. **Create a Database**:
    - Click on the "New" button in the left sidebar.
-   - Enter a name for your database (e.g., `feedback_db`) and click "Create".
+   - Enter a name for your database (`hugyaw`) and click "Create".
 
 4. **Create the Tables**:
    - Click on the newly created database.
