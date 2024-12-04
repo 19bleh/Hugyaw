@@ -31,7 +31,7 @@ header {
     font-size: 24px;
     color: #ffffff; 
     text-transform: uppercase;
-    text-decoration: none;
+    text-decoration: black;
 }
 
 .nav-links {
@@ -79,17 +79,11 @@ header {
     margin-bottom: 1rem;
 }
 
-.feedback-form, .view-feedback-form {
-    margin-bottom: 2rem;
-}
-
-.feedback-form label, .view-feedback-form label {
+.feedback-form label {
     font-weight: bold;
-    display: block;
-    margin-bottom: 0.5rem;
 }
 
-.feedback-form select, .feedback-form textarea, .feedback-form input[type="submit"], .view-feedback-form select, .view-feedback-form input[type="submit"] {
+.feedback-form select, .feedback-form textarea, .feedback-form button {
     width: 100%;
     padding: 0.5rem;
     margin-top: 0.5rem;
@@ -98,7 +92,7 @@ header {
     border-radius: 4px;
 }
 
-.feedback-form input[type="submit"], .view-feedback-form input[type="submit"] {
+.feedback-form button {
     background-color: #fda828;
     color: white;
     border: none;
@@ -106,7 +100,7 @@ header {
     transition: background-color 0.3s ease;
 }
 
-.feedback-form input[type="submit"]:hover, .view-feedback-form input[type="submit"]:hover {
+.feedback-form button:hover {
     background-color: #f39c12;
 }
 
@@ -115,10 +109,6 @@ header {
     padding: 1rem;
     border-radius: 4px;
     margin-bottom: 1rem;
-}
-
-.feedback p {
-    margin: 0.5rem 0;
 }
 
 footer {
@@ -131,5 +121,4 @@ footer {
     left: 0; 
     right: 0; 
     position: relative; 
-    text-align: center;
 }
