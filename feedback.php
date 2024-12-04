@@ -21,6 +21,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_feedback'])) {
     $stmt->close();
 }
 
+// Handle delete feedback
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_feedback'])) {
+    $feedback_id = $_POST['feedback_id'];
+
+    // Delete feedback from the database
+    $stmt = $conn->prepare("DELETE FROM feedback WHERE id = ?");
+    $stmt->bind_param("i", $feedback_id);
+    $stmt->execute();
+    $stmt->close();
+}
+
 // Get feedback for the selected municipality
 $feedback = [];
 if (isset($_GET['municipality_id'])) {
@@ -100,6 +111,10 @@ if (!$municipalitiesResultView) {
                         <div class="feedback">
                             <p><strong>Feedback:</strong> <?php echo htmlspecialchars($comment['comment']); ?></p>
                             <p><small>Posted on: <?php echo $comment['created_at']; ?></small></p>
+                            <form action="feedback.php" method="POST" class="delete-feedback-form">
+                                <input type="hidden" name="feedback_id" value="<?php echo $comment['id']; ?>">
+                                <input type="submit" name="delete_feedback" value="Delete">
+                            </form>
                         </div>
                         <hr>
                     <?php endforeach; ?>

@@ -110,6 +110,21 @@ header {
     background-color: #f39c12;
 }
 
+.delete-feedback-form input[type="submit"] {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    margin-top: 0.5rem;
+}
+
+.delete-feedback-form input[type="submit"]:hover {
+    background-color: #c0392b;
+}
+
 .feedback {
     background-color: #f4f4f9;
     padding: 1rem;
