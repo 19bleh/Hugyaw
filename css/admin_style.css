@@ -63,7 +63,7 @@ header {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
 }
 
-.feedback-section {
+.admin-section {
     padding: 2rem 5%;
     background-color: #fff;
     color: #333;
@@ -74,22 +74,22 @@ header {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.feedback-section h1, .feedback-section h2 {
+.admin-section h1, .admin-section h2 {
     text-align: center;
     margin-bottom: 1rem;
 }
 
-.feedback-form, .view-feedback-form {
+.admin-form {
     margin-bottom: 2rem;
 }
 
-.feedback-form label, .view-feedback-form label {
+.admin-form label {
     font-weight: bold;
     display: block;
     margin-bottom: 0.5rem;
 }
 
-.feedback-form select, .feedback-form textarea, .feedback-form input[type="submit"], .view-feedback-form select, .view-feedback-form input[type="submit"] {
+.admin-form input[type="text"], .admin-form textarea, .admin-form input[type="number"], .admin-form input[type="submit"] {
     width: 100%;
     padding: 0.5rem;
     margin-top: 0.5rem;
@@ -98,7 +98,7 @@ header {
     border-radius: 4px;
 }
 
-.feedback-form input[type="submit"], .view-feedback-form input[type="submit"] {
+.admin-form input[type="submit"] {
     background-color: #fda828;
     color: white;
     border: none;
@@ -106,22 +106,38 @@ header {
     transition: background-color 0.3s ease;
 }
 
-.feedback-form input[type="submit"]:hover, .view-feedback-form input[type="submit"]:hover {
+.admin-form input[type="submit"]:hover {
     background-color: #f39c12;
 }
 
-.feedback {
+.feedback-section, .user-section {
+    padding: 2rem 5%;
+    background-color: #fff;
+    color: #333;
+    text-align: left;
+    margin: 2rem auto;
+    max-width: 800px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.feedback-section h2, .user-section h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.feedback, .user {
     background-color: #f4f4f9;
     padding: 1rem;
     border-radius: 4px;
     margin-bottom: 1rem;
 }
 
-.feedback p {
+.feedback p, .user p {
     margin: 0.5rem 0;
 }
 
-.edit-feedback-form textarea, .delete-feedback-form input[type="submit"] {
+.edit-feedback-form textarea, .delete-feedback-form input[type="submit"], .edit-user-form input[type="submit"], .delete-user-form input[type="submit"] {
     width: 100%;
     padding: 0.5rem;
     margin-top: 0.5rem;
@@ -130,7 +146,7 @@ header {
     border-radius: 4px;
 }
 
-.edit-feedback-form input[type="submit"], .delete-feedback-form input[type="submit"] {
+.edit-feedback-form input[type="submit"], .delete-feedback-form input[type="submit"], .edit-user-form input[type="submit"], .delete-user-form input[type="submit"] {
     background-color: #fda828;
     color: white;
     border: none;
@@ -138,7 +154,52 @@ header {
     transition: background-color 0.3s ease;
 }
 
-.edit-feedback-form input[type="submit"]:hover, .delete-feedback-form input[type="submit"]:hover {
+.edit-feedback-form input[type="submit"]:hover, .delete-feedback-form input[type="submit"]:hover, .edit-user-form input[type="submit"]:hover, .delete-user-form input[type="submit"]:hover {
+    background-color: #f39c12;
+}
+
+.score-section {
+    padding: 2rem 5%;
+    background-color: #fff;
+    color: #333;
+    text-align: left;
+    margin: 2rem auto;
+    max-width: 800px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.score-section h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.score {
+    background-color: #f4f4f9;
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+.score p {
+    margin: 0.5rem 0;
+}
+
+.delete-score-form input[type="submit"] {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fda828;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.delete-score-form input[type="submit"]:hover {
     background-color: #f39c12;
 }
 

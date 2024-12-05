@@ -1,5 +1,11 @@
 <?php
 include 'db_connection.php';
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
 
 // Fetch municipalities for the dropdown
 $municipalitiesQuery = "SELECT id, name FROM municipalities";
@@ -13,10 +19,23 @@ if (!$municipalitiesResult) {
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_feedback'])) {
     $municipality_id = $_POST['municipality_id'];
     $comment = $_POST['comment'];
+    $username = $_SESSION['username'];
 
     // Insert feedback into the database
-    $stmt = $conn->prepare("INSERT INTO feedback (municipality_id, comment) VALUES (?, ?)");
-    $stmt->bind_param("is", $municipality_id, $comment);
+    $stmt = $conn->prepare("INSERT INTO feedback (municipality_id, comment, username) VALUES (?, ?, ?)");
+    $stmt->bind_param("iss", $municipality_id, $comment, $username);
+    $stmt->execute();
+    $stmt->close();
+}
+
+// Handle edit feedback
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['edit_feedback'])) {
+    $feedback_id = $_POST['feedback_id'];
+    $comment = $_POST['comment'];
+
+    // Update feedback in the database
+    $stmt = $conn->prepare("UPDATE feedback SET comment = ? WHERE id = ? AND username = ?");
+    $stmt->bind_param("sis", $comment, $feedback_id, $_SESSION['username']);
     $stmt->execute();
     $stmt->close();
 }
@@ -26,8 +45,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_feedback'])) {
     $feedback_id = $_POST['feedback_id'];
 
     // Delete feedback from the database
-    $stmt = $conn->prepare("DELETE FROM feedback WHERE id = ?");
-    $stmt->bind_param("i", $feedback_id);
+    $stmt = $conn->prepare("DELETE FROM feedback WHERE id = ? AND username = ?");
+    $stmt->bind_param("is", $feedback_id, $_SESSION['username']);
     $stmt->execute();
     $stmt->close();
 }
@@ -65,8 +84,9 @@ if (!$municipalitiesResultView) {
     <header>
         <nav>
             <ul class="nav-links">
-                <li><a href="Festival.html">Home</a></li>
+                <li><a href="Festival.php">Home</a></li>
                 <li><a href="feedback.php">Feedbacks</a></li>
+                <li><a href="logout.php">Logout</a></li>
             </ul>
         </nav>
         <h1 class="logo">Hugyaw</h1>
@@ -109,12 +129,19 @@ if (!$municipalitiesResultView) {
                 <div id="feedbackList">
                     <?php foreach ($feedback as $comment): ?>
                         <div class="feedback">
-                            <p><strong>Feedback:</strong> <?php echo htmlspecialchars($comment['comment']); ?></p>
+                            <p><strong><?php echo htmlspecialchars($comment['username']); ?>:</strong> <?php echo htmlspecialchars($comment['comment']); ?></p>
                             <p><small>Posted on: <?php echo $comment['created_at']; ?></small></p>
-                            <form action="feedback.php" method="POST" class="delete-feedback-form">
-                                <input type="hidden" name="feedback_id" value="<?php echo $comment['id']; ?>">
-                                <input type="submit" name="delete_feedback" value="Delete">
-                            </form>
+                            <?php if ($comment['username'] == $_SESSION['username']): ?>
+                                <form action="feedback.php" method="POST" class="edit-feedback-form">
+                                    <input type="hidden" name="feedback_id" value="<?php echo $comment['id']; ?>">
+                                    <textarea name="comment" rows="2" cols="50" required><?php echo htmlspecialchars($comment['comment']); ?></textarea><br><br>
+                                    <input type="submit" name="edit_feedback" value="Edit">
+                                </form>
+                                <form action="feedback.php" method="POST" class="delete-feedback-form">
+                                    <input type="hidden" name="feedback_id" value="<?php echo $comment['id']; ?>">
+                                    <input type="submit" name="delete_feedback" value="Delete">
+                                </form>
+                            <?php endif; ?>
                         </div>
                         <hr>
                     <?php endforeach; ?>

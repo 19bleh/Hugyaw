@@ -1,5 +1,16 @@
-<html>
+<?php
+session_start();
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Festivals</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -7,12 +18,16 @@
     <header>
         <nav>
             <ul class="nav-links">
-                <li><a href="Festival.html">Home</a></li>
+                <li><a href="Festival.php">Home</a></li>
                 <li><a href="feedback.php">Feedbacks</a></li>
+                <li><a href="quiz.php">Quiz</a></li>
+                <?php if ($_SESSION['role'] == 'admin'): ?>
+                    <li><a href="admin_dashboard.php">Admin</a></li>
+                <?php endif; ?>
+                <li><a href="logout.php">Logout</a></li>
             </ul>
         </nav>
         <h1 class="logo">Hugyaw</h1>
-        <div class="nav-right"></div>
     </header>
     <section class="head">
         <div class="head-content">
