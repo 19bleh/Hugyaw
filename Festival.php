@@ -53,7 +53,7 @@ if (!isset($_SESSION['user_id'])) {
         <div class="image-container">
             <div class="image-box">
                 <a href="html/Barotac Viejo.html">
-                    <img src="images/Barotac Nuevo/Barotac Viejo.jpg" alt="Barotac Viejo">
+                    <img src="images/Barotac Viejo/Barotac Viejo.jpg" alt="Barotac Viejo">
                     <p class="text">Barotac Viejo, Iloilo</p>
                 </a>
             </div>

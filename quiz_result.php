@@ -8,25 +8,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $user_id = $_SESSION['user_id'];
-$score = 0;
-
-for ($i = 0; $i < 5; $i++) {
-    if (isset($_POST["question_id$i"]) && isset($_POST["answer$i"])) {
-        $question_id = $_POST["question_id$i"];
-        $answer = $_POST["answer$i"];
-
-        $stmt = $conn->prepare("SELECT correct_option FROM quiz_questions WHERE id = ?");
-        $stmt->bind_param("i", $question_id);
-        $stmt->execute();
-        $stmt->bind_result($correct_option);
-        $stmt->fetch();
-        $stmt->close();
-
-        if ($answer == $correct_option) {
-            $score++;
-        }
-    }
-}
+$score = $_POST['score'];
 
 // Insert score into database
 $stmt = $conn->prepare("INSERT INTO quiz_scores (user_id, score) VALUES (?, ?)");
@@ -68,7 +50,7 @@ $leaderboard = $leaderboardResult->fetch_all(MYSQLI_ASSOC);
     <main>
         <section class="result-section">
             <h1>Quiz Result</h1>
-            <p>Your Score: <?php echo $score; ?>/5</p>
+            <p>Your Score: <?php echo $score; ?>/15</p>
             <h2>Leaderboard</h2>
             <table>
                 <tr>

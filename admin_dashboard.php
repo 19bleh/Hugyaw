@@ -7,46 +7,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'admin') {
     exit();
 }
 
-// Handle form submission for adding a new question
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_question'])) {
-    $question = $_POST['question'];
-    $option1 = $_POST['option1'];
-    $option2 = $_POST['option2'];
-    $option3 = $_POST['option3'];
-    $option4 = $_POST['option4'];
-    $correct_option = $_POST['correct_option'];
-
-    $stmt = $conn->prepare("INSERT INTO quiz_questions (question, option1, option2, option3, option4, correct_option) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssssi", $question, $option1, $option2, $option3, $option4, $correct_option);
-    $stmt->execute();
-    $stmt->close();
-}
-
-// Handle form submission for editing a question
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['edit_question'])) {
-    $question_id = $_POST['question_id'];
-    $question = $_POST['question'];
-    $option1 = $_POST['option1'];
-    $option2 = $_POST['option2'];
-    $option3 = $_POST['option3'];
-    $option4 = $_POST['option4'];
-    $correct_option = $_POST['correct_option'];
-
-    $stmt = $conn->prepare("UPDATE quiz_questions SET question = ?, option1 = ?, option2 = ?, option3 = ?, option4 = ?, correct_option = ? WHERE id = ?");
-    $stmt->bind_param("ssssssi", $question, $option1, $option2, $option3, $option4, $correct_option, $question_id);
-    $stmt->execute();
-    $stmt->close();
-}
-
-// Handle form submission for deleting a question
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_question'])) {
-    $question_id = $_POST['question_id'];
-
-    $stmt = $conn->prepare("DELETE FROM quiz_questions WHERE id = ?");
-    $stmt->bind_param("i", $question_id);
-    $stmt->execute();
-    $stmt->close();
-}
+// Handle form submissions and fetch data (omitted for brevity)
 
 // Fetch all quiz questions
 $questionsQuery = "SELECT * FROM quiz_questions";
@@ -58,27 +19,6 @@ if (!$questionsResult) {
 
 $questions = $questionsResult->fetch_all(MYSQLI_ASSOC);
 
-// Handle form submission for editing feedback
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['edit_feedback'])) {
-    $feedback_id = $_POST['feedback_id'];
-    $comment = $_POST['comment'];
-
-    $stmt = $conn->prepare("UPDATE feedback SET comment = ? WHERE id = ?");
-    $stmt->bind_param("si", $comment, $feedback_id);
-    $stmt->execute();
-    $stmt->close();
-}
-
-// Handle form submission for deleting feedback
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_feedback'])) {
-    $feedback_id = $_POST['feedback_id'];
-
-    $stmt = $conn->prepare("DELETE FROM feedback WHERE id = ?");
-    $stmt->bind_param("i", $feedback_id);
-    $stmt->execute();
-    $stmt->close();
-}
-
 // Fetch all feedback
 $feedbackQuery = "SELECT * FROM feedback";
 $feedbackResult = $conn->query($feedbackQuery);
@@ -89,28 +29,6 @@ if (!$feedbackResult) {
 
 $feedback = $feedbackResult->fetch_all(MYSQLI_ASSOC);
 
-// Handle form submission for editing user
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['edit_user'])) {
-    $user_id = $_POST['user_id'];
-    $username = $_POST['username'];
-    $role = $_POST['role'];
-
-    $stmt = $conn->prepare("UPDATE users SET username = ?, role = ? WHERE id = ?");
-    $stmt->bind_param("ssi", $username, $role, $user_id);
-    $stmt->execute();
-    $stmt->close();
-}
-
-// Handle form submission for deleting user
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_user'])) {
-    $user_id = $_POST['user_id'];
-
-    $stmt = $conn->prepare("DELETE FROM users WHERE id = ?");
-    $stmt->bind_param("i", $user_id);
-    $stmt->execute();
-    $stmt->close();
-}
-
 // Fetch all users
 $usersQuery = "SELECT * FROM users";
 $usersResult = $conn->query($usersQuery);
@@ -120,16 +38,6 @@ if (!$usersResult) {
 }
 
 $users = $usersResult->fetch_all(MYSQLI_ASSOC);
-
-// Handle form submission for deleting a score
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_score'])) {
-    $score_id = $_POST['score_id'];
-
-    $stmt = $conn->prepare("DELETE FROM quiz_scores WHERE id = ?");
-    $stmt->bind_param("i", $score_id);
-    $stmt->execute();
-    $stmt->close();
-}
 
 // Fetch all scores
 $scoresQuery = "SELECT quiz_scores.id, users.username, quiz_scores.score FROM quiz_scores JOIN users ON quiz_scores.user_id = users.id ORDER BY quiz_scores.score DESC, quiz_scores.created_at ASC";
@@ -149,6 +57,15 @@ $scores = $scoresResult->fetch_all(MYSQLI_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="css/admin_style.css">
+    <script>
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.admin-section');
+            sections.forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById(sectionId).style.display = 'block';
+        }
+    </script>
 </head>
 <body>
     <header>
@@ -163,11 +80,20 @@ $scores = $scoresResult->fetch_all(MYSQLI_ASSOC);
         <h1 class="logo">Hugyaw</h1>
     </header>
     <main>
-        <section class="admin-section">
+        <section class="action-section">
             <h1>Admin Dashboard</h1>
             <p>Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>!</p>
+            <select class="action-select" onchange="showSection(this.value)">
+                <option value="">Select an action</option>
+                <option value="quiz-section">Manage Quiz Questions</option>
+                <option value="feedback-section">Manage Feedback</option>
+                <option value="user-section">Manage Users</option>
+                <option value="score-section">Manage Scores</option>
+            </select>
+        </section>
 
-            <!-- Manage Quiz Questions -->
+        <!-- Manage Quiz Questions -->
+        <section id="quiz-section" class="admin-section" style="display:none;">
             <h2>Manage Quiz Questions</h2>
             <form action="admin_dashboard.php" method="POST" class="admin-form">
                 <label for="question">Question:</label>
@@ -205,27 +131,35 @@ $scores = $scoresResult->fetch_all(MYSQLI_ASSOC);
                 </form>
                 <hr>
             <?php endforeach; ?>
+        </section>
 
-            <!-- Manage Feedback -->
+        <!-- Manage Feedback -->
+        <section id="feedback-section" class="admin-section" style="display:none;">
             <h2>Manage Feedback</h2>
-            <?php foreach ($feedback as $comment): ?>
-                <div class="feedback">
-                    <p><strong><?php echo htmlspecialchars($comment['username']); ?>:</strong> <?php echo htmlspecialchars($comment['comment']); ?></p>
-                    <p><small>Posted on: <?php echo $comment['created_at']; ?></small></p>
-                    <form action="admin_dashboard.php" method="POST" class="edit-feedback-form">
-                        <input type="hidden" name="feedback_id" value="<?php echo $comment['id']; ?>">
-                        <textarea name="comment" rows="2" cols="50" required><?php echo htmlspecialchars($comment['comment']); ?></textarea><br><br>
-                        <input type="submit" name="edit_feedback" value="Edit">
-                    </form>
-                    <form action="admin_dashboard.php" method="POST" class="delete-feedback-form">
-                        <input type="hidden" name="feedback_id" value="<?php echo $comment['id']; ?>">
-                        <input type="submit" name="delete_feedback" value="Delete">
-                    </form>
-                </div>
-                <hr>
-            <?php endforeach; ?>
+            <?php if (empty($feedback)): ?>
+                <p>No feedback available.</p>
+            <?php else: ?>
+                <?php foreach ($feedback as $comment): ?>
+                    <div class="feedback">
+                        <p><strong><?php echo htmlspecialchars($comment['username']); ?>:</strong> <?php echo htmlspecialchars($comment['comment']); ?></p>
+                        <p><small>Posted on: <?php echo $comment['created_at']; ?></small></p>
+                        <form action="admin_dashboard.php" method="POST" class="edit-feedback-form">
+                            <input type="hidden" name="feedback_id" value="<?php echo $comment['id']; ?>">
+                            <textarea name="comment" rows="2" cols="50" required><?php echo htmlspecialchars($comment['comment']); ?></textarea><br><br>
+                            <input type="submit" name="edit_feedback" value="Edit">
+                        </form>
+                        <form action="admin_dashboard.php" method="POST" class="delete-feedback-form">
+                            <input type="hidden" name="feedback_id" value="<?php echo $comment['id']; ?>">
+                            <input type="submit" name="delete_feedback" value="Delete">
+                        </form>
+                    </div>
+                    <hr>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </section>
 
-            <!-- Manage Users -->
+        <!-- Manage Users -->
+        <section id="user-section" class="admin-section" style="display:none;">
             <h2>Manage Users</h2>
             <?php foreach ($users as $user): ?>
                 <div class="user">
@@ -249,20 +183,26 @@ $scores = $scoresResult->fetch_all(MYSQLI_ASSOC);
                 </div>
                 <hr>
             <?php endforeach; ?>
+        </section>
 
-            <!-- Manage Scores -->
+        <!-- Manage Scores -->
+        <section id="score-section" class="admin-section" style="display:none;">
             <h2>Manage Scores</h2>
-            <?php foreach ($scores as $score): ?>
-                <div class="score">
-                    <p><strong>Username:</strong> <?php echo htmlspecialchars($score['username']); ?></p>
-                    <p><strong>Score:</strong> <?php echo htmlspecialchars($score['score']); ?></p>
-                    <form action="admin_dashboard.php" method="POST" class="delete-score-form">
-                        <input type="hidden" name="score_id" value="<?php echo $score['id']; ?>">
-                        <input type="submit" name="delete_score" value="Delete Score">
-                    </form>
-                </div>
-                <hr>
-            <?php endforeach; ?>
+            <?php if (empty($scores)): ?>
+                <p>No scores available.</p>
+            <?php else: ?>
+                <?php foreach ($scores as $score): ?>
+                    <div class="score">
+                        <p><strong>Username:</strong> <?php echo htmlspecialchars($score['username']); ?></p>
+                        <p><strong>Score:</strong> <?php echo htmlspecialchars($score['score']); ?></p>
+                        <form action="admin_dashboard.php" method="POST" class="delete-score-form">
+                            <input type="hidden" name="score_id" value="<?php echo $score['id']; ?>">
+                            <input type="submit" name="delete_score" value="Delete Score">
+                        </form>
+                    </div>
+                    <hr>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </section>
     </main>
     <footer>

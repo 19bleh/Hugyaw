@@ -97,7 +97,7 @@ header {
     margin-right: 0.5rem;
 }
 
-.quiz-form input[type="submit"] {
+.quiz-form button {
     background-color: #fda828;
     color: white;
     border: none;
@@ -107,7 +107,7 @@ header {
     transition: background-color 0.3s ease;
 }
 
-.quiz-form input[type="submit"]:hover {
+.quiz-form button:hover {
     background-color: #f39c12;
 }
 

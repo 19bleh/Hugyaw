@@ -84,9 +84,10 @@ if (!$municipalitiesResultView) {
     <header>
         <nav>
             <ul class="nav-links">
-                <li><a href="Festival.php">Home</a></li>
-                <li><a href="feedback.php">Feedbacks</a></li>
-                <li><a href="logout.php">Logout</a></li>
+                <li><a href="/Hugyaw/Festival.php">Home</a></li>
+                <li><a href="/Hugyaw/feedback.php">Feedbacks</a></li>
+                <li><a href="/Hugyaw/quiz.php">Quiz</a></li>
+                <li><a href="/Hugyaw/logout.php">Logout</a></li>
             </ul>
         </nav>
         <h1 class="logo">Hugyaw</h1>
