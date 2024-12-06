@@ -1,6 +1,6 @@
 # Hugyaw
 
-The Hugyaw project is a website designed to celebrate and preserve the rich cultural heritage of the respective municipalities of the creators. This platform enables users to engage with the festival by selecting a municipality, submitting their feedback, and viewing feedback from others. Additionally, users can have fun by answering a quiz about the festivals. The application also features an admin dashboard that allows administrators to efficiently manage quiz questions, feedback, users, and scores, ensuring a seamless and interactive festival experience for all participants.
+The Hugyaw project is a website designed to celebrate and preserve the rich cultural heritage of the respective municipalities of the creators. This platform enables users to engage with the festival by selecting a municipality, submitting their feedback, and viewing feedback from others. Additionally, users can have fun by answering a quiz about the festivals. The application also features an admin dashboard that allows administrators to efficiently manage quiz questions, feedback, users, and scores, ensuring a seamless and interactive experience for all users.
 
 ## Features
 
