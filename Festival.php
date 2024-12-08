@@ -12,7 +12,7 @@ if (!isset($_SESSION['user_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Festivals</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/hugyaw_style.css">
 </head>
 <body>
     <header>
@@ -52,27 +52,27 @@ if (!isset($_SESSION['user_id'])) {
 
         <div class="image-container">
             <div class="image-box">
-                <a href="html/Barotac Viejo.html">
-                    <img src="images/Barotac Viejo/Barotac Viejo.jpg" alt="Barotac Viejo">
-                    <p class="text">Barotac Viejo, Iloilo</p>
-                </a>
-            </div>
-            <div class="image-box">
                 <a href="html/Barotac Nuevo.html">
                     <img src="images/Barotac Nuevo/Barotac Nuevo.jpg" alt=" Barotac Nuevo">
                     <p class="text">Barotac Nuevo, Iloilo</p>
                 </a>
             </div>
             <div class="image-box">
-                <a href="html/Leon.html">
-                    <img src="images/Leon/Leon.jpg" alt="Leon">
-                    <p class="text">Leon, Iloilo</p>
+                <a href="html/Barotac Viejo.html">
+                    <img src="images/Barotac Viejo/Barotac Viejo.jpg" alt="Barotac Viejo">
+                    <p class="text">Barotac Viejo, Iloilo</p>
                 </a>
             </div>
             <div class="image-box">
                 <a href="html/Cabatuan.html">
                     <img src="images/Cabatuan/Cabatuan.jpg" alt="Cabatuan">
-                    <p class="text">Cabatuan</p>
+                    <p class="text">Cabatuan, Iloilo</p>
+                </a>
+            </div>
+            <div class="image-box">
+                <a href="html/Leon.html">
+                    <img src="images/Leon/Leon.jpg" alt="Leon">
+                    <p class="text">Leon, Iloilo</p>
                 </a>
             </div>
         </div>
