@@ -43,8 +43,8 @@ header {
 }
 
 .nav-links a:hover {
-    color: #fadeff; 
-    background-color: #e171f7;
+    color: #fff; 
+    background-color: #d57fe6;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
 }
 
@@ -61,13 +61,13 @@ header p {
 
 section {
     padding: 2rem 1rem;
-    background: #fadeff;
+    background: #f5c3ff;
 }
 
 section h2 {
     font-size: 2rem;
     margin-bottom: 1rem;
-    color:#e171f7;
+    color: #d57fe6;
 }
 
 section p {
