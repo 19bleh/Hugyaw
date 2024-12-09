@@ -44,7 +44,7 @@ header {
 
 .nav-links a:hover {
     color: #fff; 
-    background-color: #f39c12;
+    background-color: #d57fe6;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
 }
 
@@ -61,12 +61,13 @@ header p {
 
 section {
     padding: 2rem 1rem;
+    background: #f5c3ff;
 }
 
 section h2 {
     font-size: 2rem;
     margin-bottom: 1rem;
-    color: #4CAF50;
+    color: #d57fe6;
 }
 
 section p {
@@ -95,7 +96,7 @@ video {
     max-width: 1000px; 
     height: auto; 
     margin: 1.5rem auto;
-    border: 3px solid #4CAF50; 
+    border: 3px solid #d57fe6;
     border-radius: 10px; 
     display: block; 
 }
